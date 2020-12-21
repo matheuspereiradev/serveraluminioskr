@@ -1,0 +1,26 @@
+{
+  "name": "serveraluminioskr",
+  "version": "0.0.1",
+  "description": "server of project aluminios kr, an brazilian aluminium factory",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matheuspereiradev/serveraluminioskr.git"
+  },
+  "keywords": [
+    "server",
+    "node",
+    "aluminios",
+    "kr",
+    "factory"
+  ],
+  "author": "matheuspereiradev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/matheuspereiradev/serveraluminioskr/issues"
+  },
+  "homepage": "https://github.com/matheuspereiradev/serveraluminioskr#readme"
+}
