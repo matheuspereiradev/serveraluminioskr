@@ -1,12 +1,16 @@
 const {Router} = require('express');
 const knex = require('../database/config');
 const { v4: uuidv4 } = require('uuid');
+require('dotenv/config');
 
 const routes_products = Router();
 
 
 routes_products.get('/all',async (req,res)=>{
-    
+    //const {authorization}=req.header;
+ 
+
+
     try{
         const productsList = await knex.select('*').from('produtos');
         return res.status(200).json(productsList);
