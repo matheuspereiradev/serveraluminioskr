@@ -5,7 +5,7 @@ const knex = require('knex')({
         host:     'localhost',
         user:     'root',
         password: '1234',
-        database: 'biblioteca'
+        database: 'dbaluminioskr'
     }
 });
 

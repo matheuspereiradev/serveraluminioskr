@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const port = 8081;
 const routesIndex = require('./routes/index');
+const routeProducts = require('./routes/products')
 
 const app = express();
 
@@ -9,6 +10,7 @@ app.use(express.json());
 app.use(cors())
 
 app.use('/',routesIndex);
+app.use('/products',routeProducts);
 
 app.listen(port,()=>{
     console.log(`Rodando na porta ${port}`)
