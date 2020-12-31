@@ -31,10 +31,15 @@ routes_products.get('/find/:id',async (req,res)=>{
     }
 });
 
-routes_products.post('/register',upload.array('thumbnail'),async (req,res)=>{
+routes_products.post('/register',upload.single('thumbnail'),async (req,res)=>{
+
+
+    const img= req.file.filename;
+
+    console.log(img)
 
     try{
-        const {nome,descricao,preco,categoria,thumbnail} = req.body;
+        const {nome,descricao,preco,categoria} = req.body;
 
         const product = {
             "uuid":uuidv4(),
@@ -43,9 +48,9 @@ routes_products.post('/register',upload.array('thumbnail'),async (req,res)=>{
             "preco":preco,
             "quantidade":0,
             "idCategoria":categoria,
-            "thumbnail":"",
+            "thumbnail":img,
         };
-
+        console.log(product)
         await knex('produtos').insert(product);
         return res.status(200).json({"success_mensage":"sucess insert"});
     }catch(erro){
