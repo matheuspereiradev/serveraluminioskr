@@ -2,6 +2,9 @@ const {Router} = require('express');
 const knex = require('../database/config');
 const { v4: uuidv4 } = require('uuid');
 require('dotenv/config');
+const multer = require('multer');
+const uploadConfig =require('../config/multerConfig');
+const upload = multer(uploadConfig);
 
 const routes_products = Router();
 
@@ -9,8 +12,6 @@ const routes_products = Router();
 routes_products.get('/all',async (req,res)=>{
     //const {authorization}=req.header;
  
-
-
     try{
         const productsList = await knex.select('*').from('produtos');
         return res.status(200).json(productsList);
@@ -30,9 +31,11 @@ routes_products.get('/find/:id',async (req,res)=>{
     }
 });
 
-routes_products.post('/register',async (req,res)=>{
+routes_products.post('/register',upload.array('thumbnail'),async (req,res)=>{
+
     try{
         const {nome,descricao,preco,categoria,thumbnail} = req.body;
+
         const product = {
             "uuid":uuidv4(),
             "nome":nome,
@@ -40,10 +43,9 @@ routes_products.post('/register',async (req,res)=>{
             "preco":preco,
             "quantidade":0,
             "idCategoria":categoria,
-            "thumbnail":thumbnail,
+            "thumbnail":"",
         };
 
-        console.log(product) 
         await knex('produtos').insert(product);
         return res.status(200).json({"success_mensage":"sucess insert"});
     }catch(erro){
