@@ -5,16 +5,25 @@ require('dotenv/config');
 const multer = require('multer');
 const uploadConfig =require('../config/multerConfig');
 const upload = multer(uploadConfig);
+const viewProdutos = require('../views/productView')
 
 const routes_products = Router();
 
 
 routes_products.get('/all',async (req,res)=>{
     //const {authorization}=req.header;
- 
     try{
-        const productsList = await knex.select('*').from('produtos');
-        return res.status(200).json(productsList);
+        const productsList = await knex.select('categorias.id as idCategoria'
+                                             , 'categorias.nome as nomeCategoria'
+                                             , 'categorias.descricao as descricaoCategoria'
+                                             , 'produtos.uuid as uuidProduto'
+                                             , 'produtos.nome as nomeProduto'
+                                             , 'produtos.descricao as descricaoProduto'
+                                             , 'produtos.preco as precoProduto'
+                                             , 'produtos.quantidade as quantidadeProduto'
+                                             , 'produtos.thumbnail as thumbnailProduto'
+                                             ).from('produtos').innerJoin('categorias', 'produtos.idCategoria', 'categorias.id');
+        return res.status(200).json(viewProdutos.renderMany(productsList));
     }catch(erro){
         return res.status(500).json({"error_mensage":erro});
     }
