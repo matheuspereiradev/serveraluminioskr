@@ -33,20 +33,27 @@ routes_products.get('/find/:id',async (req,res)=>{
     
     try{
         const {id}=req.params;
-        const product = await knex.select('*').from('produtos').where({"uuid":id});
-        return res.status(200).json(product);
+        const product = await knex.select(   'categorias.id as idCategoria'
+                                                , 'categorias.nome as nomeCategoria'
+                                                , 'categorias.descricao as descricaoCategoria'
+                                                , 'produtos.uuid as uuidProduto'
+                                                , 'produtos.nome as nomeProduto'
+                                                , 'produtos.descricao as descricaoProduto'
+                                                , 'produtos.preco as precoProduto'
+                                                , 'produtos.quantidade as quantidadeProduto'
+                                                , 'produtos.thumbnail as thumbnailProduto'
+                                                ).from('produtos')
+                                                .innerJoin('categorias', 'produtos.idCategoria', 'categorias.id')
+                                                .where({"uuid":id});
+                                                
+        return res.status(200).json(viewProdutos.renderMany(product));
     }catch(erro){
         return res.status(500).json({"error_mensage":erro});
     }
 });
 
 routes_products.post('/register',upload.single('thumbnail'),async (req,res)=>{
-
-
     const img= req.file.filename;
-
-    console.log(img)
-
     try{
         const {nome,descricao,preco,categoria} = req.body;
 
@@ -78,7 +85,6 @@ routes_products.put('/edit',async(req,res)=>{
             "idCategoria":categoria,
             "thumbnail":thumbnail,
         };
-        
         await knex('produtos').where({"uuid":uuid}).update(product);
         return res.status(200).json({"success_mensage":"updated with success"});
     }catch(erro){

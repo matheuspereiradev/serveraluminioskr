@@ -1,10 +1,15 @@
 module.exports={
     render(produto){
+
+        const valor = String(produto.precoProduto);
         return {
+
+            
+
             id:produto.uuidProduto,
             nome:produto.nomeProduto,
             descricao:produto.descricaoProduto,
-            preco:produto.precoProduto,
+            preco:valor.replace(".",","),
             quantidade:produto.quantidadeProduto,
             thumbnail:produto.thumbnailProduto,
             categoria:{
