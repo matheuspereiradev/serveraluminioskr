@@ -5,7 +5,8 @@ require('dotenv/config');
 const multer = require('multer');
 const uploadConfig =require('../config/multerConfig');
 const upload = multer(uploadConfig);
-const viewProdutos = require('../views/productView')
+const viewProdutos = require('../views/productView');
+const fs = require('fs')
 
 const routes_products = Router();
 
@@ -74,14 +75,14 @@ routes_products.post('/register',upload.single('thumbnail'),async (req,res)=>{
     }
 });
 
-routes_products.put('/edit',async(req,res)=>{
+routes_products.put('/edit',upload.single('thumbnail'),async(req,res)=>{
     try{
-        const {uuid,nome,descricao,preco,categoria,thumbnail} = req.body;
+        const {uuid,nome,descricao,preco,categoria} = req.body;
+
         const product = {
             "nome":nome,
             "descricao":descricao,
             "preco":preco,
-            "quantidade":0,
             "idCategoria":categoria,
             "thumbnail":thumbnail,
         };
@@ -96,6 +97,7 @@ routes_products.delete('/delete/:id',async(req,res)=>{
     try{
         const {id}=req.params;
         await knex('produtos').where({"uuid":id}).delete();
+        //fs.unlink(``)
         return res.status(200).json({"success_mensage":"deleted with success"});
     }catch(erro){
         return res.status(500).json({"error_mensage":erro});

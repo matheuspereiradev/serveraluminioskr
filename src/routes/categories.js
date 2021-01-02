@@ -25,4 +25,32 @@ routes_categories.get('/find/:id',async (req,res)=>{
     }
 });
 
+routes_categories.post('/register',async (req,res)=>{
+    
+    try{
+        const {nome,descricao} = req.body;
+
+        const category = {
+            "nome":nome,
+            "descricao":descricao
+        };
+        console.log(category)
+        await knex('categorias').insert(category);
+        return res.status(200).json({"success_mensage":"sucess insert"});
+    }catch(erro){
+        return res.status(500).json({"error_mensage":erro});
+    }
+});
+
+routes_categories.delete('/delete/:id',async(req,res)=>{
+    try{
+        const {id}=req.params;
+        await knex('categorias').where({"id":id}).delete();
+        //fs.unlink(``)
+        return res.status(200).json({"success_mensage":"deleted with success"});
+    }catch(erro){
+        return res.status(500).json({"error_mensage":erro});
+    }
+})
+
 module.exports = routes_categories;
