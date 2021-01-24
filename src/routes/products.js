@@ -23,7 +23,7 @@ routes_products.get('/all',async (req,res)=>{
                                              , 'produtos.preco as precoProduto'
                                              , 'produtos.quantidade as quantidadeProduto'
                                              , 'produtos.thumbnail as thumbnailProduto'
-                                             ).from('produtos').innerJoin('categorias', 'produtos.idCategoria', 'categorias.id');
+                                             ).from('produtos').leftJoin('categorias', 'produtos.idCategoria', 'categorias.id');
         return res.status(200).json(viewProdutos.renderMany(productsList));
     }catch(erro){
         return res.status(500).json({"error_mensage":erro});
@@ -44,7 +44,7 @@ routes_products.get('/find/:id',async (req,res)=>{
                                                 , 'produtos.quantidade as quantidadeProduto'
                                                 , 'produtos.thumbnail as thumbnailProduto'
                                                 ).from('produtos')
-                                                .innerJoin('categorias', 'produtos.idCategoria', 'categorias.id')
+                                                .leftJoin('categorias', 'produtos.idCategoria', 'categorias.id')
                                                 .where({"uuid":id});
                                                 
         return res.status(200).json(viewProdutos.renderMany(product));
