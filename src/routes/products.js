@@ -56,15 +56,15 @@ routes_products.get('/find/:id',async (req,res)=>{
 routes_products.post('/register',upload.single('thumbnail'),async (req,res)=>{
     const img= req.file.filename;
     try{
-        const {nome,descricao,preco,categoria} = req.body;
+        const data = req.body.data;
 
         const product = {
             "uuid":uuidv4(),
-            "nome":nome,
-            "descricao":descricao,
-            "preco":preco,
+            "nome":data.nome,
+            "descricao":data.descricao,
+            "preco":data.preco,
             "quantidade":0,
-            "idCategoria":categoria,
+            "idCategoria":data.categoria,
             "thumbnail":img,
         };
         console.log(product)

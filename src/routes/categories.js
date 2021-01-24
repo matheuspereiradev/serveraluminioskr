@@ -53,4 +53,20 @@ routes_categories.delete('/delete/:id',async(req,res)=>{
     }
 })
 
+routes_categories.put('/edit',async(req,res)=>{
+    try{
+        const {id,nome,descricao} = req.body;
+
+        const category = {
+            "nome":nome,
+            "descricao":descricao,
+            "id":id
+        };
+        await knex('categorias').where({"id":id}).update(category);
+        return res.status(200).json({"success_mensage":"updated with success"});
+    }catch(erro){
+        return res.status(500).json({"error_mensage":erro});
+    }
+});
+
 module.exports = routes_categories;
