@@ -9,8 +9,11 @@ const path =require('path')
 
 const app = express();
 
-app.use(express.json());
-//app.use(bodyParser.json())
+//app.use(express.json());
+app.use(bodyParser.json()); 
+
+// for parsing application/xwww-
+app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(cors())
 
 app.use('/',routesIndex);
